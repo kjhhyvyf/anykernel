@@ -5,20 +5,24 @@
 # begin properties
 properties() { '
   do.devicecheck=0
-  do.modules=0
-  do.systemless=1
-  do.cleanup=1
-  do.cleanuponabort=0
-  device.name1=pipa
-  supported.versions=
-  supported.patchlevels=
+do.modules=0
+do.systemless=1
+do.cleanup=1
+do.cleanuponabort=0
+device.name1=alioth
+device.name2=aliothin
+device.name3=apollo
+device.name4=apolloin
+device.name5=lmi
+supported.versions=
+supported.patchlevels=
 '; } # end properties
 
 # shell variables
-block=boot
-is_slot_device=auto
-ramdisk_compression=auto
-patch_vbmeta_flag=auto
+block=boot;
+is_slot_device=auto;
+ramdisk_compression=auto;
+patch_vbmeta_flag=auto;
 no_block_display=1
 
 ## Import AnyKernel core functions
@@ -44,25 +48,30 @@ ui_print "       KaoKun Kernel installation in progress"
 ui_print "  --------------------------------------------------"
 ui_print ""
 
-## Prepare Kernel and DTB
-mv "$home/kernels/Image" "$home/Image"
-mv "$home/kernels/dtb" "$home/dtb"
+mv $home/kernels/Image $home/Image;
+# mv $home/kernels/dtb $home/dtb;
 
 ## Boot Partition Flash
 split_boot
 flash_boot
 
-## Vendor Boot Partition Flash
-block=vendor_boot
-is_slot_device=1
-ramdisk_compression=auto
-patch_vbmeta_flag=auto
+# flash_dtbo;
+## end boot install
 
-# Reset AnyKernel state for vendor_boot
-reset_ak
+# Vendor boot
+#block=vendor_boot;
+#is_slot_device=1;
+#ramdisk_compression=auto;
+#patch_vbmeta_flag=auto;
 
-split_boot
-flash_boot
+# reset for vendor_boot patching
+#reset_ak;
+
+## AnyKernel vendor_boot install
+#split_boot;
+
+#flash_boot;
+## end vendor_boot install
 
 ui_print ""
 ui_print "  --------------------------------------------------"
