@@ -1,3 +1,35 @@
+# AnyKernel3 Ramdisk Mod Script
+# osm0sis @ xda-developers
+
+## AnyKernel setup
+# begin properties
+properties() { '
+  do.devicecheck=0
+  do.modules=0
+  do.systemless=1
+  do.cleanup=1
+  do.cleanuponabort=0
+  device.name1=pipa
+  supported.versions=
+  supported.patchlevels=
+'; } # end properties
+
+# shell variables
+block=boot
+is_slot_device=auto
+ramdisk_compression=auto
+patch_vbmeta_flag=auto
+no_block_display=1
+
+## Import AnyKernel core functions
+. tools/ak3-core.sh
+
+ui_print ""
+ui_print "  =================================================="
+ui_print "              KaoKun Kernel Installer          "
+ui_print "  =================================================="
+ui_print ""
+ui_print "    Target Device  : Xiaomi Pad 6 (pipa)"
 ui_print "    Chipset        : Snapdragon 870"
 ui_print "    Author         : KaoKun"
 ui_print ""
@@ -12,30 +44,25 @@ ui_print "       KaoKun Kernel installation in progress"
 ui_print "  --------------------------------------------------"
 ui_print ""
 
-mv $home/kernels/Image $home/Image;
-# mv $home/kernels/dtb $home/dtb;
+## Prepare Kernel and DTB
+mv "$home/kernels/Image" "$home/Image"
+mv "$home/kernels/dtb" "$home/dtb"
 
 ## Boot Partition Flash
 split_boot
 flash_boot
 
-# flash_dtbo;
-## end boot install
+## Vendor Boot Partition Flash
+block=vendor_boot
+is_slot_device=1
+ramdisk_compression=auto
+patch_vbmeta_flag=auto
 
-# Vendor boot
-#block=vendor_boot;
-#is_slot_device=1;
-#ramdisk_compression=auto;
-#patch_vbmeta_flag=auto;
+# Reset AnyKernel state for vendor_boot
+reset_ak
 
-# reset for vendor_boot patching
-#reset_ak;
-
-## AnyKernel vendor_boot install
-#split_boot;
-
-#flash_boot;
-## end vendor_boot install
+split_boot
+flash_boot
 
 ui_print ""
 ui_print "  --------------------------------------------------"
